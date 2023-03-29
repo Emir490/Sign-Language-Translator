@@ -107,7 +107,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                 np.save(npy_path, keypoints)
 
                 # Break gracefully
-                if cv2.waitKey(10) & 0xFF == ord('q'):
+                if cv2.waitKey(10) & 0xFF == ord('w'):
                     break
                     
     cap.release()
