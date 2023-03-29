@@ -8,11 +8,17 @@ from matplotlib import pyplot as plt
 
 mp_holistic = mp.solutions.holistic                 # holistic model
 mp_drawing = mp.solutions.drawing_utils             # Drawing utilities
-DATA_PATH = os.path.join('../../data/numbers')      # Path for exported data, numpy arrays
-actions = np.array(['hello', 'thanks', 'iloveyou']) # Actions that we try to detect
+DATA_PATH = os.path.join('data/numbers')                    # Path for exported data, numpy arrays
 no_sequences = 30                                   # Thirty videos worth of data
 sequence_length = 30                                # Videos are going to be 30 frames in length
 start_folder = 30                                   # Folder start
+ # Actions that we try to detect
+actions = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
+                    '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
+                    '100', '200', '300', '400', '500', '600', '700', '800', '900',
+                    '1000', '2000', '3000', 'MILLON',
+                    'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
 
 
 def make_dir():
