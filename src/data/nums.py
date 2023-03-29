@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 
 mp_holistic = mp.solutions.holistic                 # holistic model
 mp_drawing = mp.solutions.drawing_utils             # Drawing utilities
-DATA_PATH = os.path.join('data/numbers')                    # Path for exported data, numpy arrays
+DATA_PATH = os.path.join('numbers')                    # Path for exported data, numpy arrays
 no_sequences = 30                                   # Thirty videos worth of data
 sequence_length = 30                                # Videos are going to be 30 frames in length
 start_folder = 30                                   # Folder start

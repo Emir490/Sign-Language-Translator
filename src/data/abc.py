@@ -46,7 +46,7 @@ def extract_keypoints(results):
     return np.concatenate([pose, face, lh, rh])
 
 # Path for exported data, numpy arrays
-DATA_PATH = os.path.join('data/ABC') 
+DATA_PATH = os.path.join('ABC') 
 
 # Actions that we try to detect
 actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
