@@ -8,6 +8,18 @@ import mediapipe as mp
 mp_holistic = mp.solutions.holistic # Holistic model
 mp_drawing = mp.solutions.drawing_utils # Drawing utilities
 
+# Path for exported data, numpy arrays
+DATA_PATH = os.path.join('data/ABC') 
+
+# Actions that we try to detect
+actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+
+# Thirty videos worth of data
+no_sequences = 30
+
+# Videos are going to be 30 frames in length
+sequence_length = 30
+
 def mediapipe_detection(image, model):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # COLOR CONVERSION BGR 2 RGB
     image.flags.writeable = False                  # Image is no longer writeable
@@ -45,18 +57,6 @@ def extract_keypoints(results):
     rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
     return np.concatenate([pose, face, lh, rh])
 
-# Path for exported data, numpy arrays
-DATA_PATH = os.path.join('ABC') 
-
-# Actions that we try to detect
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
-
-# Thirty videos worth of data
-no_sequences = 30
-
-# Videos are going to be 30 frames in length
-sequence_length = 30
-
 for action in actions: 
     for sequence in range(no_sequences):
         try: 
@@ -67,6 +67,9 @@ for action in actions:
 cap = cv2.VideoCapture(0)
 # Set mediapipe model 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+
+    # Add pause flag
+    pause = False
     
     # NEW LOOP
     # Loop through actions
@@ -75,7 +78,17 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         for sequence in range(no_sequences):
             # Loop through video length aka sequence length
             for frame_num in range(sequence_length):
-
+                
+                # Add pause logic
+                while pause:
+                    key = cv2.waitKey(30)
+                    # Press 'r' to resume
+                    if key == ord('r'):
+                        pause = False
+                    # Press 'q' to quit
+                    elif key == ord('q'):
+                        break
+                
                 # Read feed
                 ret, frame = cap.read()
 
@@ -106,8 +119,12 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                 np.save(npy_path, keypoints)
 
                 # Break gracefully
-                if cv2.waitKey(10) & 0xFF == ord('q'):
+                key = cv2.waitKey(10)
+                if key == ord('q'):
                     break
+                # Press 'p' to pause
+                elif key == ord('p'):
+                    pause = True
                     
     cap.release()
     cv2.destroyAllWindows()
