@@ -12,7 +12,12 @@ mp_drawing = mp.solutions.drawing_utils # Drawing utilities
 DATA_PATH = os.path.join('ABC') 
 
 # Actions that we try to detect
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
+                    '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
+                    '100', '200', '300', '400', '500', '600', '700', '800', '900',
+                    '1000', '2000', '3000', 'MILLON',
+                    'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
 
 # Thirty videos worth of data
 no_sequences = 30
