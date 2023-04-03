@@ -10,6 +10,6 @@ yhat = model.predict(X_test)
 ytrue = np.argmax(y_test, axis=1).tolist()
 yhat = np.argmax(yhat, axis=1).tolist()
 
-multilabel_confusion_matrix(ytrue, yhat)
+print(multilabel_confusion_matrix(ytrue, yhat))
 
-accuracy_score(ytrue, yhat)
+print(accuracy_score(ytrue, yhat))
