@@ -1,6 +1,6 @@
 matplotlib==3.7.1
 mediapipe==0.9.1.0
 numpy==1.24.2
-opencv==4.7.0.72
+opencv-python==4.7.0.72
 tensorflow==2.11.0
 scikit-learn==1.2.2
