@@ -2,20 +2,12 @@ import cv2
 import numpy as np
 import os
 from matplotlib import pyplot as plt
-import sys
-
-# current = os.path.dirname(os.path.realpath(__file__)) # getting the name of the directory where this file is present.
-# parent = os.path.dirname(current) # Getting the parent directory name where the current directory is present.
-# sys.path.append(parent) # adding the parent directory to the sys.path.
-
-from ..utils.index import mp_holistic, mediapipe_detection, extract_keypoints, draw_landmarks
 # import time
 # import mediapipe as mp
-
-actions = np.array(["test_1",'test2'])
+from utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
 
 # Path for exported data (numpy arrays)
-DATA_PATH = os.path.join(r'data\test') 
+DATA_PATH = os.path.join('ABC') 
 
 # Thirty videos worth of data
 no_sequences = 30
@@ -57,7 +49,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                 
                 # Read feed
                 ret, frame = cap.read()
-                frame = cv2.flip(frame, 1)
 
                 # Make detections
                 image, results = mediapipe_detection(frame, holistic)

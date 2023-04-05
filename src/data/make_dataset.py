@@ -1,88 +1,42 @@
-import cv2
-import numpy as np
-import os
-from matplotlib import pyplot as plt
-# import time
-# import mediapipe as mp
-from utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
+import tkinter
 
-# Path for exported data (numpy arrays)
-DATA_PATH = os.path.join('ABC') 
+window = tkinter.Tk()
+window.geometry("400x400")
+# window.state("zoomed")
 
-# Thirty videos worth of data
-no_sequences = 30
+list_box = tkinter.Listbox(window)
 
-# Videos are going to be 30 frames in length
-sequence_length = 30
+list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL','M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-for action in actions: 
-    for sequence in range(no_sequences):
-        try: 
-            os.makedirs(os.path.join(DATA_PATH, action, str(sequence)))
-        except:
-            pass
-        
-cap = cv2.VideoCapture(0)
-# Set mediapipe model 
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+for i in range(len(list)):
+    list_box.insert(tkinter.END,list[i])
 
-    # Add pause flag
-    pause = False
-    
-    # NEW LOOP
-    # Loop through actions
-    for action in actions:
-        # Loop through sequences aka videos
-        for sequence in range(no_sequences):
-            # Loop through video length aka sequence length
-            for frame_num in range(sequence_length):
-                
-                # Add pause logic
-                while pause:
-                    key = cv2.waitKey(30)
-                    # Press 'r' to resume
-                    if key == ord('r'):
-                        pause = False
-                    # Press 'q' to quit
-                    elif key == ord('q'):
-                        break
-                
-                # Read feed
-                ret, frame = cap.read()
+list_box.pack()
+# label = tkinter.Label(window, text="Hola mundo", bg = "green")
+# # Coloca la eqtiqueta en la posicion indicada
+# # side = tkinter.LEFT
+# # label.pack(fill = tkinter.X)
 
-                # Make detections
-                image, results = mediapipe_detection(frame, holistic)
+# def hello(nombre):
+#     print("Hello " + nombre)
 
-                # Draw landmarks
-                draw_landmarks(image, results)
-                
-                # NEW Apply wait logic
-                if frame_num == 0: 
-                    cv2.putText(image, 'STARTING COLLECTION', (120,200), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
-                    cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                    # Show to screen
-                    cv2.imshow('OpenCV Feed', image)
-                    cv2.waitKey(2000)
-                else: 
-                    cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                    # Show to screen
-                    cv2.imshow('OpenCV Feed', image)
-                
-                # NEW Export keypoints
-                keypoints = extract_keypoints(results)
-                npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
-                np.save(npy_path, keypoints)
+# #button = tkinter.Button(window,text="Clic",padx=50,pady=50,command=hello)
+# button1 = tkinter.Button(window,text="Hello",padx=50,pady=50,command=lambda: hello("Omar"))
+# # button1.pack()
 
-                # Break gracefully
-                key = cv2.waitKey(10)
-                if key == ord('q'):
-                    break
-                # Press 'p' to pause
-                elif key == ord('p'):
-                    pause = True
-                    
-    cap.release()
-    cv2.destroyAllWindows()
+# # TextBox
+# textbox = tkinter.Entry(window,font="Helvetica 12")
+# # textbox.pack()
+
+# def imprimir():
+#     print(textbox.get())
+
+# button2 = tkinter.Button(window,text='Get Text',command=imprimir)
+# # button2.pack()
+
+# button1.grid(row=0,column=0)
+# textbox.grid(row=1,column=1)
+# button2.grid(row=2,column=2)
+# label.grid(row=1,column=0)
+
+window.mainloop()
