@@ -6,7 +6,9 @@ mp_holistic = mp.solutions.holistic # Holistic model
 mp_drawing = mp.solutions.drawing_utils # Drawing utilities
 
 # Actions that we try to detect
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 
+                    'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 
+                    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
                     '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
                     '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
                     '100', '200', '300', '400', '500', '600', '700', '800', '900',
@@ -49,3 +51,28 @@ def extract_keypoints(results):
     lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
     rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
     return np.concatenate([pose, face, lh, rh])
+
+# Code for checking opencv and mediapipe performance
+if __name__ == '__main__':
+    cap = cv2.VideoCapture(0)
+    # Set mediapipe model 
+    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+        while cap.isOpened():
+            # Read feed
+            ret, frame = cap.read()
+            frame = cv2.flip(frame, 1)
+
+            # Make detections
+            image, results = mediapipe_detection(frame, holistic)
+            
+            # Draw landmarks
+            draw_landmarks(image, results)
+
+            # Show to screen
+            cv2.imshow('OpenCV Feed', image)
+
+            # Break gracefully
+            if cv2.waitKey(10) & 0xFF == ord('q'):
+                break
+        cap.release()
+        cv2.destroyAllWindows()
