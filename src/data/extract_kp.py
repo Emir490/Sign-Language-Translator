@@ -4,10 +4,10 @@ import os
 from matplotlib import pyplot as plt
 # import time
 # import mediapipe as mp
-from utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
+from ..utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
 
 # Path for exported data (numpy arrays)
-DATA_PATH = os.path.join('ABC') 
+DATA_PATH = os.path.join(r'data\test') 
 
 # Thirty videos worth of data
 no_sequences = 30

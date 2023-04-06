@@ -2,8 +2,8 @@ import tkinter
 import numpy as np
 import os
 
-SIGNS_PATH = os.path.join(r'src\data\categories')
-capture_sign =''
+SIGNS_PATH = os.path.join('src/data/categories')
+sign_selected =''
 categorie_selected=''
 number_secuence = 0
 
@@ -47,6 +47,7 @@ def select_sign(event):
         value = widget.get(index) # gets the value of the selected item in the listbox
         capture_sign = value
         print('You selected sign: ' + capture_sign)
+        global sign_selected; sign_selected = value
 
 
 # Displays the signs stated by the selected categorie
@@ -59,12 +60,17 @@ def display_Signs(event):
         signs = load_Signs(Dic_Categories[value]) # loads all the signs
         listSigns.delete(0,tkinter.END)
         for sign in signs:
-            listSigns.insert(tkinter.END,sign)    
+            listSigns.insert(tkinter.END,sign)
+        global categorie_selected; categorie_selected = value
+        global sign_selected; sign_selected = ''
 
 
 def start_capture():
-    print(categorie_selected)
-    print(capture_sign)
+    if categorie_selected != '' or sign_selected != '':
+        print('Selected: ' + categorie_selected)
+        print('Selected: ' + sign_selected)
+    else:
+        print('Select a sign')
 
 
 # List Boxes
