@@ -1,12 +1,22 @@
+import numpy as np
+import os
+
+
+path = os.path.join('src','data','categories')
+
 # ABC
 actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 
                     'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+
+np.save(os.path.join(path,'abc'),actions)
 
 # Adjetivos, pronombres, preposiciones y articulos
 actions = np.array(['adjetivo','algo','ante','articulo','cada','conmigo','contigo_v1','contigo_v2','contra','de',
                     'el-ella','ellos','en','entre_v1','entre_v2','esa-ese-eso','mi-mio','mismo','ni','nos-nosotros-nuestro',
                     'para','por','primero','propio','suyo','tambien','todavia','todo','tú','tuyo','ustde','yo_v1','yo_v2',
                     ])
+
+np.save(os.path.join(path,'adjetivos'),actions)
 
 # Alimentos
 actions = np.array(['aceite','agrio','agua','alimento','apetito','arroz','asar','atole','avena','azucar','bacardi','bistec',
@@ -20,6 +30,8 @@ actions = np.array(['aceite','agrio','agua','alimento','apetito','arroz','asar',
                     'satisfecho_v1','satisfecho_v2','sed','sopa','sope','taco','tamal','té','torta','tortilla','vinagre','vino',
                     'whisky','yogur'])
 
+np.save(os.path.join(path,'alimentos'),actions)
+
 # Animales
 actions = np.array(['abeja','aguila','ala','alacran','almeja','animal','araña','ardilla','asno','avestruz','avispa','becerro',
                     'borrego','buey','bufalo','buho','burro','caballo','cabra','calamar','camaron','camello','canguro','caracol',
@@ -29,6 +41,8 @@ actions = np.array(['abeja','aguila','ala','alacran','almeja','animal','araña',
                     'oso','ostion','pajaro','paloma','pantera','pato','pavo real','pelicano','perico','perro','pez','pingüino',
                     'pollo','puerco','puerco espin','pulpo','rana','raton','rinoceronte','sapo','tiburon_v1','tiburon_v2',
                     'tigre','toro','tortuga','vaca','vampiro','venado','vivora','zorrillo','zorro'])
+
+np.save(os.path.join(path,'animales'),actions)
 
 # Antonimos
 actions = np.array(['abajo_v1','abajo_v2','abrir','acompañado','adentro','afuera','agarrar','alegre','alto','amable','antes',
@@ -43,6 +57,8 @@ actions = np.array(['abajo_v1','abajo_v2','abrir','acompañado','adentro','afuer
                     'regañar','reir','responder','rico','saber','salir','seco','serio','sí','siempre','sin','sinonimo','solo','suave',
                     'subir','sucio','terminar','triste','vacio','verdad'])
 
+np.save(os.path.join(path,'antonimos'),actions)
+
 # Calendario
 actions = np.array(['lunes','martes','miercoles','jueves','viernes','sabado','domingo',
                     'enero','febrero','marzo','abril','mayo','junio','julio','agosto',
@@ -50,6 +66,8 @@ actions = np.array(['lunes','martes','miercoles','jueves','viernes','sabado','do
                     'otoño','invierno','hoy','ayer','mañana','presente','pasado','futuro',
                     'buenos dias','buenas tardes','buenas noches','amanecer','antiguo_v1',
                     'antiguo_v2','año','dia','mediodia','mes','noche','semana','tarde','temprano'])
+
+np.save(os.path.join(path,'calendario'),actions)
 
 # Casa
 actions = np.array(['almohada','azotea','azucarera','baño','barrer','basura','batidora','bote','buzon',
@@ -69,15 +87,20 @@ actions = np.array(['almohada','azotea','azucarera','baño','barrer','basura','b
                     'tina','toalla','tocador','tostador','trapeador','trapo','trastes','tubo','vaso','vecindad',
                     'vela','ventana','vidrio','vitrina'])
 
+np.save(os.path.join(path,'casa'),actions)
+
 # Colores
 actions = np.array(['amarillo','anaranjado','azul','azul rey','blanco','brillante','bronce','café','claro',
                     'color','gris','morado','negro','oscuro','oro','plata','rojo_v1','rojo_v2','rosa',
                     'rosa mexicana','verde','verde limon'])
 
+np.save(os.path.join(path,'colores'),actions)
 # Cuerpo humano
 actions = np.array(['barba','barbilla','bigote','boca','brazo','cadera','cara','ceja','codo','cuello','diente',
                     'espalda','estomago','frente','garganta','hombro','hueso','labios','lengua','mano','mejilla',
                     'muñeca','nariz','ojo','oreja','pecho','pelo','pestañas','pulgar','uña'])
+
+np.save(os.path.join(path,'cuerpo_humano'),actions)
 
 # Escuela
 actions = np.array(['antropologia','bandera','calificaion','campana_v1','campana_v2','certificado','campás',
@@ -85,6 +108,8 @@ actions = np.array(['antropologia','bandera','calificaion','campana_v1','campana
                     'escuela','estudiante','goma','lapiz','leccion','mapa','microscopio','papel','parrafo',
                     'perspectiva','pizarron','pluma','politecnico','premio','preparatoria','primaria','preuba',
                     'quimica','sacapuntas','secundaria','tecnologico'])
+
+np.save(os.path.join(path,'escuela'),actions)
 
 # Familia
 actions = np.array(['abuela','abuelo','adulto','ahijada','ahijado','amante','amiga','amigo','amistad','anciana',
@@ -99,6 +124,8 @@ actions = np.array(['abuela','abuelo','adulto','ahijada','ahijado','amante','ami
                     'papá','pareja_v1','pareja_v2','persona','prima','primo','señor','señora','señorita','separada',
                     'separado','sobrina','sobrino','soltera','soltero','suegra','suegro','tatarabuela','tatarabuelo',
                     'tia','tio','tutor','union libre','vieja','viejo','viuda','viudo','yerno'])
+
+np.save(os.path.join(path,'familia'),actions)
 
 # Frutas y verduras
 actions = np.array(['aceituna_v1','aceituna_v2','acelga','aguacate_v1','aguacate_v2',
@@ -116,6 +143,8 @@ actions = np.array(['aceituna_v1','aceituna_v2','acelga','aguacate_v1','aguacate
                     'tejocote','tomate','toronja','tuna','uva','verdura_v1',
                     'verdura_v2','zanahoria','zapote'])
 
+np.save(os.path.join(path,'frutas_verduras'),actions)
+
 # Numeros
 actions = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
                     '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
@@ -124,12 +153,16 @@ actions = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
                     '1000', '2000', '3000', 'MILLON',
                     'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
 
-# Numeros - Palabras relacionales
+np.save(os.path.join(path,'numeros'),actions)
+
+# Numeros - Palabras relacionadas
 actions = np.array(['circulo','conjunto','contar',
                     'cuadrado','diagonal','division','doble','dolar','esfera',
                     'froma','grupo','horizontal','lado','linea_v1','linea_v2',
                     'matematicas','millonario','mitad','multiplicacion','numero','raiz cuadrada',
                     'rectangulo','resta','suma','triangulo','ultimo','vertical'])
+
+np.save(os.path.join(path,'palabras_relacionadas'),actions)
 
 # Republica Mexicana
 actions = np.array(['Acapulco','Aguascalientes','Baja California','Baja California Sur','Campeche','Chetumal',
@@ -143,6 +176,8 @@ actions = np.array(['Acapulco','Aguascalientes','Baja California','Baja Californ
                     'Tabasco','Tamaulipas','Tampico','Tepic','Tijuana','Tlaxcala',
                     'Toluca','Tuxtla Gutierrez','Veracruz','Villahermosa',
                     'Xalapa','Yucatan','Zacatecas'])
+
+np.save(os.path.join(path,'republica_mexicana'),actions)
 
 # Otras palabras
 actions = np.array(['abandonar','abrazar','acceso','aceptar',
@@ -176,3 +211,5 @@ actions = np.array(['abandonar','abrazar','acceso','aceptar',
                     'traducir','transformar','unido','untar','urgente','usar',
                     'util','vago','valioso','ver','vez','volar',
                     'voleivol','votar','voz','zapato'])
+
+np.save(os.path.join(path,'otras_palabras'),actions)
