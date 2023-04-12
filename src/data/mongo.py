@@ -44,5 +44,5 @@ for sign in signs:
     action['action'] = sign.lower()
     get_sequences(sign)
     with open(os.path.join(JSON_PATH,sign+'.json'),'w') as outfile:
-        json.dump(action,outfile,indent=4)
+        json.dump(action,outfile)
         print('Saved action "{}" to JSON.'.format(sign))
