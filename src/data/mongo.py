@@ -9,10 +9,14 @@ import json
 # db = cluster['SignAI']
 # collection = db['signs']
 
-DATA_PATH = os.path.join('data','ABC')
-JSON_PATH = os.path.join('JSON','ABC')
-signs = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 
-                    'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+DATA_PATH = os.path.join('data','numbers')
+JSON_PATH = os.path.join('JSON','numbers')
+signs = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
+                    '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
+                    '100', '200', '300', '400', '500', '600', '700', '800', '900',
+                    '1000', '2000', '3000', 'MILLON',
+                    'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
 
 action = {
     'action':'',
@@ -39,7 +43,7 @@ def get_sequences(sign):
     print('Got all sequences for "{}".'.format(sign))
 
 # Saves the sequences to .json file
-action['categorie'] = 'abc'
+action['categorie'] = 'number'
 for sign in signs:
     action['action'] = sign.lower()
     get_sequences(sign)
