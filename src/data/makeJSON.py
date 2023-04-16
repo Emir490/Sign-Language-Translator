@@ -1,13 +1,8 @@
 # Uploading data to mongoDB
 import pymongo
-from pymongo import MongoClient
 import os
 import numpy as np
 import json
-
-# cluster = MongoClient('mongodb+srv://root:<password>@routectijuana.aziov99.mongodb.net/?retryWrites=true&w=majority')
-# db = cluster['SignAI']
-# collection = db['signs']
 
 DATA_PATH = os.path.join('data','numbers')
 JSON_PATH = os.path.join('JSON','numbers')
@@ -43,10 +38,11 @@ def get_sequences(sign):
     print('Got all sequences for "{}".'.format(sign))
 
 # Saves the sequences to .json file
-action['categorie'] = 'number'
-for sign in signs:
-    action['action'] = sign.lower()
-    get_sequences(sign)
-    with open(os.path.join(JSON_PATH,sign+'.json'),'w') as outfile:
-        json.dump(action,outfile)
-        print('Saved action "{}" to JSON.'.format(sign))
+def saveNumpy2json():
+    action['categorie'] = 'number'
+    for sign in signs:
+        action['action'] = sign.lower()
+        get_sequences(sign)
+        with open(os.path.join(JSON_PATH,sign+'.json'),'w') as outfile:
+            json.dump(action,outfile)
+            print('Saved action "{}" to JSON.'.format(sign))
