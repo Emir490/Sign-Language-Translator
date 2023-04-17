@@ -1,17 +1,13 @@
 import cv2
 import numpy as np
 import mediapipe as mp
+import random
 
 mp_holistic = mp.solutions.holistic # Holistic model
 mp_drawing = mp.solutions.drawing_utils # Drawing utilities
 
 # Actions that we try to detect
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-                    '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
-                    '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
-                    '100', '200', '300', '400', '500', '600', '700', '800', '900',
-                    '1000', '2000', '3000', 'MILLON',
-                    'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
+actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
 
 def mediapipe_detection(image, model):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # COLOR CONVERSION BGR 2 RGB
@@ -49,3 +45,69 @@ def extract_keypoints(results):
     lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
     rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
     return np.concatenate([pose, face, lh, rh])
+
+colors = [
+    (245, 117, 16), (117, 245, 16), (16, 117, 245), # first 3 colors
+    (245, 16, 117), (117, 16, 245), (16, 245, 117), # next 3 colors
+    (245, 245, 16), (16, 245, 245), (245, 16, 245), # next 3 colors
+    (245, 117, 245), (117, 245, 245), (245, 245, 117), # next 3 colors
+    (117, 16, 16), (16, 117, 16), (16, 16, 117), # next 3 colors
+    (117, 117, 16), (16, 117, 117), (117, 16, 117), # next 3 colors
+    (117, 245, 16), (16, 245, 117), (245, 16, 117), # next 3 colors
+    (117, 16, 245), (16, 117, 245), (245, 117, 16) # last 3 colors
+]
+
+
+def augment_keypoints(keypoints, noise_scale=0.01, scale_range=(0.9, 1.1), rotation_range=(-15, 15), translation_range=(-10, 10)):
+    num_keypoints = keypoints.shape[0] // 2
+
+    # Add Gaussian noise
+    keypoints[:num_keypoints*2] += np.random.normal(0, noise_scale, num_keypoints*2)
+
+    # Apply scaling
+    scale = np.random.uniform(scale_range[0], scale_range[1])
+    keypoints[:num_keypoints*2] *= scale
+
+    # Apply rotation
+    angle = np.radians(np.random.uniform(rotation_range[0], rotation_range[1]))
+    rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+
+    for i in range(0, num_keypoints*2, 2):
+        keypoints[i:i+2] = np.dot(keypoints[i:i+2], rotation_matrix)
+
+    # Apply translation
+    translation_x = np.random.uniform(translation_range[0], translation_range[1])
+    translation_y = np.random.uniform(translation_range[0], translation_range[1])
+    keypoints[0:num_keypoints*2:2] += translation_x
+    keypoints[1:num_keypoints*2:2] += translation_y
+
+    return keypoints
+
+
+# Augment a single sequence of keypoints
+def augment_sequence(X, y, num_augmentations=5):
+    X_augmented = []
+    y_augmented = []
+
+    for i in range(X.shape[0]):
+        sequence = X[i]
+        label = y[i]
+
+        # Add the original sequence
+        X_augmented.append(sequence)
+        y_augmented.append(label)
+
+        # Create augmented sequences
+        for _ in range(num_augmentations):
+            augmented_sequence = []
+            for frame in sequence:
+                augmented_keypoints = augment_keypoints(frame)
+                augmented_sequence.append(augmented_keypoints)
+
+            X_augmented.append(np.array(augmented_sequence))
+            y_augmented.append(label)
+
+    X_augmented = np.array(X_augmented)
+    y_augmented = np.array(y_augmented)
+
+    return X_augmented, y_augmented

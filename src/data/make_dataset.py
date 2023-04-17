@@ -4,7 +4,7 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
-from utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
+from src.utils.index import actions, mp_holistic, mp_drawing, mediapipe_detection, extract_keypoints, draw_landmarks
 
 # Path for exported data, numpy arrays)
 DATA_PATH = os.path.join('ABC') 
@@ -73,6 +73,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                 
                 # NEW Export keypoints
                 keypoints = extract_keypoints(results)
+                print(len(keypoints))
                 npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
                 np.save(npy_path, keypoints)
 

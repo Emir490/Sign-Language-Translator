@@ -1,23 +1,17 @@
 import os
+import time
 import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
-import time
+from ..utils.index import actions, augment_sequence
 
 DATA_PATH = os.path.join('data')
 
-# Thirty videos worth of data
-no_sequences = 30
+# TSixty videos worth of data
+no_sequences = 60
 
 # Videos are going to be 30 frames in length
 sequence_length = 30
-
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-                    '11', '12', '13', '14', '15_v1', '15_v2', '16', '17', '18', '19', 
-                    '20', '25_v1', '25_v2', '30', '40', '50', '60', '70', '80', '90',
-                    '100', '200', '300', '400', '500', '600', '700', '800', '900',
-                    '1000', '2000', '3000', 'MILLON',
-                    'PRIMERO', 'SEGUNDO', 'TERCERO', 'CUARTO', 'QUINTO', 'SEXTO'])
 
 label_map = {label: num for num, label in enumerate(actions)}
 
@@ -42,4 +36,10 @@ print(f"Time taken: {int(minutes)} minutes and {int(seconds)} seconds")
 
 X = np.array(sequences)
 y = to_categorical(labels).astype(int)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
+
+X_augmented, y_augmented = augment_sequence(X, y)
+    
+X_augmented = np.array(X_augmented)
+y_augmented = np.array(y_augmented)
+
+X_train, X_test, y_train, y_test = train_test_split(X_augmented, y_augmented, test_size=0.05)
