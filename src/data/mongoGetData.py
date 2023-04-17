@@ -20,31 +20,40 @@ MONGO_FIELDS = { '_id':0, 'action':1, 'sequence':1, 'keypoints':1}
 
 # Save action to json file
 # record=json string    action=filename
-def save2json(record, sequence):
-    file_path = os.path.join(JSON_PATH,record['action'],'{}.json'.format(sequence))
+def save2json(record):
+    action = record['action']
+    sequence = record['sequence']
+    file_path = os.path.join(JSON_PATH,action,'{}.json'.format(sequence))
     with open( file_path,'w') as file:
         json_data = json.dumps(record, indent=3, default=json_util.default)
         file.write(json_data)
         file.close()
     print('Saved sequence [{}] to json.'.format(sequence))
 
-# TODO
-# Also, convert to numpy after getting every one of them
+# Gets all the documents from MongoDB
 def getMongoData():
     for action in ACTION_LIST:
-        os.makedirs(JSON_PATH,action)
+        dir = os.path.join(JSON_PATH,action)
+        try:
+            os.makedirs(dir)
+        except(FileExistsError):
+            pass
         for i in range(1,31):
             query = { 'sequence':'{}-{}'.format(action,i) }
             record = collection.find_one(query,MONGO_FIELDS)
-            if record is not None: save2json(record, action)
+            if record is not None: save2json(record)
             else: pass
 
+# Converts the JSON files to numpy arrays
 def json2numpy():
     for action in ACTION_LIST:
         for i in range(30):
             sequence = i + 30
-            dirs = os.path.join(DATA_PATH,'ABC',action,str(sequence))
-            os.makedirs(dirs)
+            dir = os.path.join(DATA_PATH,'ABC',action,str(sequence))
+            try:
+                os.mkdir(dir)
+            except(FileExistsError):
+                pass
             filePath = os.path.join(JSON_PATH,action,'{}-{}.json'.format(action,i+1))
             f = open( filePath, 'r')
             data = json.load(f)
@@ -54,14 +63,23 @@ def json2numpy():
             for frame in frames:
                 pose = np.array(frame['pose'])
                 face = np.array(frame['face'])
-                lh = np.array(frame['lefthand'])
-                rh = np.array(frame['righthand'])
-                keypoints = np.concatenate(pose, face, lh, rh)
-                npy_path = os.path.join(dirs,str(frame_count))
+                lh = np.array(frame['leftHand'])
+                rh = np.array(frame['rightHand'])
+                keypoints = np.concatenate([pose, face, lh, rh])
+                print('Sequence {}, frame {}, size {}.'.format(data['sequence'],frame_count,keypoints.size))
+                npy_path = os.path.join(dir,str(frame_count))
                 np.save(npy_path,keypoints)
                 frame_count += 1
 
+def main():
+    try:
+        os.mkdir(JSON_PATH)
+    except(FileExistsError):
+        pass
+    finally:
+        getMongoData()
+
 
 if __name__ == '__main__':
-    getMongoData()
+    # main()
     json2numpy()
