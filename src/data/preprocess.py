@@ -12,9 +12,9 @@ no_sequences = 60
 # Videos are going to be 30 frames in length
 sequence_length = 30
 
-actions = np.array(['A', 'B', 'C', 'D', 'E', 'F'])
+actions = np.array(['A', 'B', 'C'])
 
-# , 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+# , 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
 #                     'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 
 label_map = {label: num for num, label in enumerate(actions)}

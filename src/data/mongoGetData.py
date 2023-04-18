@@ -31,8 +31,8 @@ def save2json(record):
     print('Saved sequence [{}] to json.'.format(sequence))
 
 # Gets all the documents from MongoDB
-def getMongoData():
-    for action in ACTION_LIST:
+def getMongoData(actions):
+    for action in actions:
         dir = os.path.join(JSON_PATH,action)
         try:
             os.makedirs(dir)
@@ -45,8 +45,8 @@ def getMongoData():
             else: pass
 
 # Converts the JSON files to numpy arrays
-def json2numpy():
-    for action in ACTION_LIST:
+def json2numpy(actions):
+    for action in actions:
         for i in range(30):
             sequence = i + 30
             dir = os.path.join(DATA_PATH,'ABC',action,str(sequence))
@@ -77,9 +77,11 @@ def main():
     except(FileExistsError):
         pass
     finally:
-        getMongoData()
+        # getMongoData(ACTION_LIST)
+        getMongoData(['A','B','C'])
+    # json2numpy(ACTION_LIST)
+    json2numpy(['A','B','C'])
 
 
 if __name__ == '__main__':
-    # main()
-    json2numpy()
+    main()
